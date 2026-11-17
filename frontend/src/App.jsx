@@ -40,34 +40,28 @@ function App() {
   const [gpsLoading, setGpsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // YouTube weather videos
   const [videos, setVideos] = useState([]);
   const [videosLoading, setVideosLoading] = useState(false);
   const [videosError, setVideosError] = useState("");
 
-  // Date range
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [dateWeather, setDateWeather] = useState(null);
   const [dateLoading, setDateLoading] = useState(false);
   const [dateError, setDateError] = useState("");
 
-  // Save weather
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
 
-  // Saved records
   const [records, setRecords] = useState([]);
   const [recordsLoading, setRecordsLoading] = useState(false);
   const [recordsError, setRecordsError] = useState("");
 
-  // Edit record
   const [editingId, setEditingId] = useState(null);
   const [editStartDate, setEditStartDate] = useState("");
   const [editEndDate, setEditEndDate] = useState("");
   const [editLoading, setEditLoading] = useState(false);
 
-  // Load saved records when application starts
   useEffect(() => {
     loadRecords();
   }, []);
@@ -295,7 +289,7 @@ function App() {
     }
   }
 
-  // Load all saved records
+  // Load saved records
   async function loadRecords() {
     setRecordsLoading(true);
     setRecordsError("");
@@ -316,14 +310,12 @@ function App() {
     }
   }
 
-  // Start editing a record
   function startEditing(record) {
     setEditingId(record.id);
     setEditStartDate(record.start_date);
     setEditEndDate(record.end_date);
   }
 
-  // Cancel editing
   function cancelEditing() {
     setEditingId(null);
     setEditStartDate("");
@@ -388,9 +380,7 @@ function App() {
     try {
       const response = await fetch(
         `${API_URL}/api/records/${recordId}`,
-        {
-          method: "DELETE"
-        }
+        { method: "DELETE" }
       );
 
       const data = await response.json();
@@ -433,7 +423,6 @@ function App() {
     }
   }
 
-  // Backend returns weather inside data.weather
   const currentWeather = weather?.weather?.current;
   const dailyWeather = weather?.weather?.daily;
 
@@ -524,7 +513,6 @@ function App() {
                 </div>
 
                 <div className="weather-details">
-
                   <div className="weather-card">
                     <h4>Temperature</h4>
                     <p>{currentWeather.temperature_2m}°C</p>
@@ -544,7 +532,6 @@ function App() {
                     <h4>Wind Speed</h4>
                     <p>{currentWeather.wind_speed_10m} km/h</p>
                   </div>
-
                 </div>
               </>
             )}
@@ -606,9 +593,7 @@ function App() {
                 Watch weather updates and forecasts for {weather.location.name}.
               </p>
 
-              {videosLoading && (
-                <p>Loading weather videos...</p>
-              )}
+              {videosLoading && <p>Loading weather videos...</p>}
 
               {videosError && (
                 <p className="error-message">{videosError}</p>
@@ -741,7 +726,6 @@ function App() {
           <h2>Saved Weather Records</h2>
           <p>Manage your previously saved weather searches.</p>
 
-          {/* Export Buttons */}
           <div className="export-buttons">
             <button onClick={() => downloadExport("csv")}>
               Download CSV
@@ -780,7 +764,6 @@ function App() {
 
           {records.map((record) => (
             <div className="saved-record-card" key={record.id}>
-
               <h3>
                 {record.location}, {record.country}
               </h3>
@@ -860,9 +843,36 @@ function App() {
                   </div>
                 </>
               )}
-
             </div>
           ))}
+        </section>
+
+        {/* About WeatherWise */}
+        <section className="about-section">
+          <h2>About WeatherWise</h2>
+
+          <p>
+            WeatherWise is a full-stack weather application developed by
+            Nasrin Shafikha as part of the PM Accelerator AI Engineer
+            Intern Technical Assessment.
+          </p>
+
+          <h3>About PM Accelerator</h3>
+
+          <p>
+            PM Accelerator supports aspiring and experienced product
+            managers through practical training, mentorship, and
+            career development opportunities.
+          </p>
+
+          <p>
+            <strong>Developed by:</strong> Nasrin Shafikha
+          </p>
+
+          <p>
+            <strong>Technology:</strong> React, FastAPI, Python, SQLite,
+            Open-Meteo API and YouTube Data API.
+          </p>
         </section>
 
       </main>
